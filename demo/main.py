@@ -16,7 +16,7 @@ async def deepseek_model_if_cache(
     prompt, system_prompt=None, history_messages=[], **kwargs
 ) -> str:
     openai_async_client = AsyncOpenAI(
-
+        api_key=os.environ["API_KEY"], base_url=os.environ["BASE_URL"]
     )
     messages = []
     if system_prompt:
@@ -54,7 +54,7 @@ def remove_if_exist(file):
         os.remove(file)
 
 
-def extraction(scope: list[str]) -> dict:
+def extraction(chunk_list: list[str]) -> dict:
     WORKING_DIR = "save"
     remove_if_exist(f"{WORKING_DIR}/graph.json")
     remove_if_exist(f"{WORKING_DIR}/vdb_entities.json")
@@ -69,8 +69,7 @@ def extraction(scope: list[str]) -> dict:
         best_model_func=deepseek_model_if_cache,
         cheap_model_func=deepseek_model_if_cache,
     )
-
-    return rag.insert(scope)
+    return rag.insert(chunk_list)
 
 
 
