@@ -35,7 +35,7 @@ from ._utils import (
     limit_async_func_call,
     convert_response_to_json,
     always_get_an_event_loop,
-    logger,
+    logger, convert_graph_to_json,
 )
 from .base import (
     BaseGraphStorage,
@@ -310,7 +310,10 @@ class GraphRAG:
             await self.full_docs.upsert(new_docs)
             await self.text_chunks.upsert(inserting_chunks)
         finally:
-            await self._insert_done()
+            # await self._insert_done()
+            return convert_graph_to_json(self.chunk_entity_relation_graph._graph)
+
+
 
     async def _insert_start(self):
         tasks = []
