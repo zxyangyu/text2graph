@@ -309,6 +309,9 @@ class GraphRAG:
             # ---------- commit upsertings and indexing
             await self.full_docs.upsert(new_docs)
             await self.text_chunks.upsert(inserting_chunks)
+        except Exception as e:
+            logger.error(f"Error in inserting: {e}")
+            raise e
         finally:
             # await self._insert_done()
             return convert_graph_to_json(self.chunk_entity_relation_graph._graph)

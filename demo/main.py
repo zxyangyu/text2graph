@@ -15,6 +15,7 @@ logging.getLogger("nano-graphrag").setLevel(logging.INFO)
 async def deepseek_model_if_cache(
     prompt, system_prompt=None, history_messages=[], **kwargs
 ) -> str:
+    MODEL = "deepseek-chat"
     openai_async_client = AsyncOpenAI(
         api_key=os.environ["API_KEY"], base_url=os.environ["BASE_URL"]
     )
@@ -75,11 +76,10 @@ def extraction(chunk_list: list[str]) -> dict:
 
 if __name__ == "__main__":
     import random
-    MODEL = "deepseek-chat"
     with open("book.txt", encoding="utf-8-sig") as f:
         scope = f.read()
-    graph_json=extraction(scope.split('Illustration'))
-    pass
+    graph_json=extraction(scope.split('\n')[0:100])
+    print(graph_json)
 
 
 
