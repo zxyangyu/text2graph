@@ -272,7 +272,7 @@ def convert_graph_to_json(G):
     }
 
     # 处理节点
-    for node_id in G.nodes():
+    for idx,node_id in enumerate(G.nodes()):
         node_data = G.nodes[node_id]
         # 构建属性列表
         attrs = []
@@ -284,9 +284,9 @@ def convert_graph_to_json(G):
 
         # 构建节点对象
         node = {
-            "id": str(node_id),
+            "id": idx,  # 使用索引作为节点的ID
             "data": {
-                "label": node_data.pop("entity_type", ""),  # 可以根据需要修改label
+                "label": str(node_id),  # 可以根据需要修改label
                 "attrs": attrs
             }
         }
@@ -306,7 +306,7 @@ def convert_graph_to_json(G):
         edge = {
             "source": str(source),
             "target": str(target),
-            "id": str(idx),  # 使用索引作为边的ID
+            "id": idx,  # 使用索引作为边的ID
             "data": {
                 "label": edge_data.pop("relation_type", ""),  # 如果边有label属性则使用，否则为空
                 "sourceLabel": str(source),
